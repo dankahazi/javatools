@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<project name="run" default="start" basedir="." xmlns:ac="antlib:net.sf.antcontrib">
+
+	<taskdef resource="net/sf/antcontrib/antcontrib.properties"/>
+	
+	<loadproperties srcFile="../src/main/resources/test.properties" />
+	<path id="antclasspath">
+	    <fileset dir="lib">
+	        <include name="*.jar" />
+	    </fileset>
+	</path>
+
+	<path id="testpath">
+	    <fileset dir="${test.app.path}">
+	        <include name="*.jar" />
+	    </fileset>
+	</path>
+
+	<target name="run_test">
+		<delete>
+			<fileset dir="." includes="TEST*.txt"/>
+			<fileset dir="." includes="TEST*.xml"/>
+		</delete>
+		
+		<junit  printsummary="yes" fork="yes">
+			<jvmarg value="-Dfile.encoding=UTF-8"/>
+			<classpath refid="testpath" />
+			<formatter type="xml"/>
+			<test name="ControllerTest" />
+		</junit>
+	</target>
+	
+	<macrodef name="run_sql">
+		<attribute name="command" default="select 1 from dual;" />
+		<sequential>
+			<sql driver="${db.driver}"
+	   			url="${db.connection}"
+	   			userid="${db.userid}"
+	   			password="${db.passwd}"
+				encoding="UTF-8"
+				>
+			@{command}    		
+	    	</sql>
+		</sequential>
+	</macrodef>
+
+	<macrodef name="run_sql_file">
+		<attribute name="file" />
+		<sequential>
+			<sql driver="${db.driver}"
+	   			url="${db.connection}"
+	   			userid="${db.userid}"
+	   			password="${db.passwd}"
+	   			delimiter=";"
+				encoding="UTF-8">
+				<transaction src="@{file}" />
+	    	</sql>
+		</sequential>
+	</macrodef>
+
+	<macrodef name="run_plsql_file">
+		<attribute name="file" />
+		<sequential>
+			<sql driver="${db.driver}"
+	   			url="${db.connection}"
+	   			userid="${db.userid}"
+	   			password="${db.passwd}"
+	   			delimiter="/"
+	   			keepformat="true"
+				encoding="UTF-8">
+				<transaction src="@{file}" />
+	    	</sql>
+		</sequential>
+	</macrodef>
+	
+</project>	
