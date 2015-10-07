@@ -5,12 +5,8 @@ import org.apache.commons.io.IOUtils;
 
 public class FileUtil {
 
-	public String getFile(String fileName) throws PRDException {
-		try {
-			return IOUtils.toString(getFileAsStream(fileName), "UTF_8");
-		} catch (IOException e) {
-			throw new PRDException(e);
-		}
+	public String getFile(String fileName) throws IOException {
+		return IOUtils.toString(getFileAsStream(fileName), "UTF-8");
 	}
 
 	public InputStream getFileAsStream(String fileName) {
