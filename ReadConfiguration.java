@@ -2,8 +2,6 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.Properties;
 
-import eu.cec.press.prd.util.file.FileUtil;
-
 public class ReadConfiguration {
 
 	private static final String SERVICE_HOST = "service.host";
